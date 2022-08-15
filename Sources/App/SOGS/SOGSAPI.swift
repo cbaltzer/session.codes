@@ -7,6 +7,9 @@
 
 import Foundation
 import Vapor
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 struct SOGS {
     
@@ -23,8 +26,9 @@ struct SOGS {
         }
         
         func getRoom(token: String) async throws -> SOGSRoom {
+            print("Getting room: \(token)")
             let roomReq = SOGS.API().getRequest(endpoint: "/room/\(token)")
-            let (data, _) = try await URLSession.shared.data(for: roomReq)
+            let data = try await asyncData(for: roomReq)
             
             let room: SOGSRoom = try! JSONDecoder().decode(SOGSRoom.self, from: data)
             return room
@@ -39,24 +43,14 @@ struct SOGS {
             let room = SOGSRoom(token: token, name: name, description: description, admin: admin)
             createReq.httpBody = try JSONEncoder().encode(room)
             
-            let (_, res) = try await URLSession.shared.data(for: createReq)
-            if let response = res as? HTTPURLResponse {
-                if response.statusCode != 200 {
-                    throw Abort(.unauthorized)
-                }
-            }
+            try await asyncData(for: createReq)
         }
         
         func delRoom(token: String) async throws {
-            var createReq = SOGS.API().getRequest(endpoint: "/room/\(token)")
-            createReq.httpMethod = "DELETE"
+            var delReq = SOGS.API().getRequest(endpoint: "/room/\(token)")
+            delReq.httpMethod = "DELETE"
             
-            let (_, res) = try await URLSession.shared.data(for: createReq)
-            if let response = res as? HTTPURLResponse {
-                if response.statusCode != 200 {
-                    throw Abort(.unauthorized)
-                }
-            }
+            try await asyncData(for: delReq)
         }
         
         func addMod(token: String, mod: Moderator) async throws {
@@ -66,12 +60,7 @@ struct SOGS {
             modReq.addValue("application/json", forHTTPHeaderField: "Accept")
             modReq.httpBody = try JSONEncoder().encode(mod)
             
-            let (_, res) = try await URLSession.shared.data(for: modReq)
-            if let response = res as? HTTPURLResponse {
-                if response.statusCode != 200 {
-                    throw Abort(.unauthorized)
-                }
-            }
+            try await asyncData(for: modReq)
         }
         
         func delMod(token: String, mod: Moderator) async throws {
@@ -81,13 +70,44 @@ struct SOGS {
             modReq.addValue("application/json", forHTTPHeaderField: "Accept")
             modReq.httpBody = try JSONEncoder().encode(mod)
             
-            let (_, res) = try await URLSession.shared.data(for: modReq)
-            print("Got upstream response")
-            if let response = res as? HTTPURLResponse {
-                if response.statusCode != 200 {
-                    throw Abort(.unauthorized)
+            try await asyncData(for: modReq)
+        }
+        
+        
+        @discardableResult func asyncData(for request: URLRequest) async throws -> Data {
+            return try await Task { () -> Data in
+                let semaphore = DispatchSemaphore(value: 0)
+                var data = Data()
+                var response: URLResponse?
+                var error: Error?
+                                
+                let task = URLSession.shared.dataTask(with: request) { d, res, err in
+                    if let resData = d {
+                        data = resData
+                    }
+                    response = res
+                    error = err
+                    
+                    semaphore.signal()
                 }
-            }
+                
+                task.resume()
+                _ = semaphore.wait(timeout: .now() + 30)
+                
+                if let response = response as? HTTPURLResponse {
+                    print("response: \(response.statusCode)")
+                    if response.statusCode != 200 {
+                        print("aborting")
+                        throw Abort(.unauthorized)
+                    }
+                }
+                
+                if error != nil {
+                    throw Abort(.internalServerError)
+                }
+                
+                return data
+            }.result.get()
         }
     }
 }

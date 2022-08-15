@@ -65,6 +65,8 @@ struct RoomController: RouteCollection {
         }
         
         try await SOGS.API().delRoom(token: room.token)
+        try await room.delete(force: true, on: req.db)
+        
         return req.redirect(to: "/app/home")
     }
     
