@@ -1,0 +1,33 @@
+#extend("theme"):
+    #export("content"):
+        
+<main class="container col-lg-4 col-md-6 ">
+    <div class="bg-light p-5 rounded ">
+  
+        <h3>Sign Up</h3>
+
+        <div id="errorBanner" class="d-none bg-danger opacity-75 text-white p-2 rounded m-3" >Invalid credentials</div>
+
+<form method="POST" action="/auth/signup">
+
+    <input class="form-control mb-3" type="text" id="username" placeholder="Username" name="username" autocomplete="username" required autofocus>
+    <input class="form-control mb-3" type="password" id="password" placeholder="Password" name="password" autocomplete="current-password" required>
+    <input class="form-control mb-3" type="password" id="confirmPassword" placeholder="Password" name="confirmPassword" autocomplete="confirm-password" required>
+    
+    <input class="btn btn-primary w-100" type="submit" value="Sign Up">
+</form>
+
+
+    </div>
+</main>
+
+    <script type="text/javascript">
+        if (window.location.href.includes("error=true")) {
+            let errBanner = document.getElementById("errorBanner");
+            errBanner.classList.remove("d-none");
+            errBanner.classList.add("d-flex");
+        }
+    </script>
+
+    #endexport
+#endextend

@@ -1,0 +1,166 @@
+
+#extend("theme"):
+    #export("content"):
+
+
+
+<main class="container col-md-8 col-sm-12">
+
+    <h1>
+        Rooms
+    </h1>
+    <div class="d-flex mb-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createRoomModal">
+            Create Room
+        </button>
+    
+        
+    </div>
+    
+#for(room in rooms):
+  <div class="bg-light p-3 mb-4 rounded">
+    <h3 class="d-flex">
+        #(room.name)
+        <form method="POST" action="/app/delRoom/#(room.token)" class="ms-auto">
+            <button class="me-0 btn btn-sm btn-outline-danger" type="submit">Delete Room</button>
+        </form>
+    </h3>
+    <h5><small class="text-muted">#(room.description)</small></h5>
+    <hr/>
+    
+    <dl class="row">
+        <dt class="col-sm-2">URL</dt>
+        <dd class="col-sm-10 fs-xs text-break">
+            <a href="#(room.url)">#(room.url)</a>
+        </dd>
+        
+        <dt class="col-sm-2">Active Users</dt>
+        <dd class="col-sm-10">#(room.activeUsers)</dd>
+        
+        <dt class="col-sm-2">Messages</dt>
+        <dd class="col-sm-10">#(room.messages)</dd>
+
+        <dt class="col-sm-2">Moderators</dt>
+        <dd class="col-sm-10">
+            <ul class="list-group list-group-flush">
+                #for(mod in room.moderators):
+               
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-0 me-auto">
+                        
+                            <pre class="p-0 pt-2 text-wrap text-break text-muted">#(mod)</pre>
+                        </div>
+                        <form method="POST" action="/app/delMod/#(room.token)/#(mod)">
+                            <button class="btn btn-sm btn-outline-dark" type="submit">Remove</button>
+                        </form>
+                    </li>
+
+                #endfor
+                
+                <li class="list-group-item d-flex justify-content-between align-items-start w-100">
+                    <form action="/app/addMod/#(room.token)" method="POST" >
+    
+                        <div class="mb-3 row collapse" id="addModForm-#(room.token)">
+                        
+                            <input type="text" class="form-control mb-3" id="modID" name="id" placeholder="Moderator ID">
+                            
+                            <div class="hstack gap-3 mb-3">
+                            
+                                <div class="form-check rounded p-3 border ">
+                                  <input class="form-check-input" type="checkbox" value="true" id="addModHidden" name="hiddenCheck">
+                                  <label class="form-check-label" for="addModHidden">
+                                    Hidden
+                                  </label>
+                                </div>
+
+                                <div class="form-check rounded p-3 border border-danger">
+                                  <input class="form-check-input" type="checkbox" value="true" id="addModAdmin" name="adminCheck">
+                                  <label class="form-check-label" for="addModAdmin">
+                                    Admin
+                                  </label>
+                                </div>
+
+                            </div>
+
+                            <button type="submid" class="btn btn-sm btn-primary mb-3">
+                                Add
+                            </button>
+                            <hr/>
+                        </div>
+                
+                
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="collapse" data-bs-target="#addModForm-#(room.token)">
+                            Add Moderator &raquo;
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            
+        </dd>
+
+    </dl>
+    
+    
+    
+  </div>
+#endfor
+
+  
+</main>
+
+
+
+<!-- Create Room Modal -->
+<div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createRoomModalLabel">Create Room</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/app/createRoom" method="POST">
+      
+      <div class="modal-body">
+        <p class="mb-3">These can't be changed later, make sure they're right!</p>
+        
+        <div class="mb-3 row">
+            <label for="roomName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="roomName" name="name">
+            </div>
+        </div>
+        
+        
+        <div class="mb-3 row">
+            <label for="roomDescription" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="roomDescription" name="description">
+            </div>
+        </div>
+        
+        
+        <div class="mb-3 row">
+            <label for="roomAdmin" class="col-sm-2 col-form-label">Admin ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="roomAdmin" name="admin">
+            </div>
+        </div>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+      
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    #endexport
+#endextend
+

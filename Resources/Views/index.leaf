@@ -1,0 +1,93 @@
+#extend("theme"):
+    #export("content"):
+        
+
+
+<main class="container col-lg-6 col-md-8">
+    <h1>Hosted Session Open Groups</h1>
+    <p class="fs-5 col-md-10">Create your own Session open groups, without all the hassle.</p>
+    <strong class="fs-5 col-md-8">Easy, free, open.</strong>
+
+    <div class="mb-5 mt-3">
+      <a href="/signup" class="btn btn-primary btn-lg px-4">Get Started</a>
+    </div>
+
+    <hr class="col-3 col-md-2 mb-5">
+
+    <div class="row g-5">
+      <div class="col-md-6">
+        <h2>Resources</h2>
+        <p>New to Session? Want to learn more about creating groups, or the technology behind this site? Some of these resources might help.</p>
+        <ul class="icon-list ps-0">
+          <li class="d-flex align-items-start mb-1"><a href="https://getsession.org" rel="noopener" target="_blank">Session</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="https://optf.ngo" rel="noopener" target="_blank">OPTF</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="https://docs.oxen.io/products-built-on-oxen/session/open-group-setup" rel="noopener" target="_blank">Open Groups</a></li>
+          
+          <li class="d-flex align-items-start mb-1"><a href="https://github.com/oxen-io/session-pysogs" rel="noopener" target="_blank">PySOGS</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="https://github.com/cbaltzer/SOGSCtl" rel="noopener" target="_blank">SOGSCtl</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-6">
+        <h2>Donate</h2>
+        <p>This project is funded by donations. If you actively use the service please consider helping out. Any contribution is deeply appreciated.</p>
+        <ul class="icon-list ps-0">
+          <li class="d-flex align-items-start mb-1"><a href="https://github.com/sponsors/cbaltzer" rel="noopener" target="_blank">GitHub Sponsors</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="#" data-bs-toggle="modal" data-bs-target="#oxenModal">Oxen</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="#" data-bs-toggle="modal" data-bs-target="#bitcoinModal">Bitcoin</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <hr class="col-3 col-md-2 mb-5">
+
+    <div class="row g-5">
+        
+        <p class="text-muted fs-sm">session.codes is not affiliated with <a href="https://getsession.org" class="link-secondary">Session</a> or <a href="https://optf.ngo" class="link-secondary">OPTF</a> in any way.</p>
+        
+    </div>
+</main>
+
+
+<!-- Oxen Modal -->
+<div class="modal fade" id="oxenModal" tabindex="-1" aria-labelledby="oxenModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="oxenModalLabel">Oxen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body d-flex justify-content-center">
+            <img src="/oxen_qr.png" class="w-50 img-fluid rounded">
+      </div>
+      <div class="modal-footer">
+          <pre class="mb-3 px-3 fs-xs text-break text-wrap text-center">LBfXpPrCUn8ZMHcAryB5We7pPjrc7dZMM7b4AiBKYMCeYbRtHZg7vYvU2DjKD98is9JrNnAcWZS84KfDGP43jHqL251LF98</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bitcoin Modal -->
+<div class="modal fade" id="bitcoinModal" tabindex="-1" aria-labelledby="bitcoinModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bitcoinModalLabel">Bitcoin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body d-flex justify-content-center">
+            <img src="/btc_qr.png" class="w-50 img-fluid rounded">
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+          <pre class="mb-3 px-3 fs-xs text-break text-wrap">bc1q6q9em0626ln6zhjw8ezxyvx69wwa6xa9ug6ynq</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+    #endexport
+#endextend
