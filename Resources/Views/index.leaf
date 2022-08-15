@@ -13,8 +13,22 @@
     </div>
 
     <hr class="col-3 col-md-2 mb-5">
+    
+    <div class="row ">
+      <div class="col-md-10">
+        <p>Questions? Want to get involved? Join our
+            <a
+                href="#"
+                name="http://open.session.codes/6e7b5f?public_key=c7fbfa183b601f4d393a43644dae11e5f644db2a18c747865db1ca922e632e32"
+                id="copyToastBtn"
+                class="link-secondary">community group</a>.
+        </p>
+      </div>
+    </div>
 
-    <div class="row g-5">
+    <hr class="col-3 col-md-2 mb-5">
+
+    <div class="row ">
       <div class="col-md-6">
         <h2>Resources</h2>
         <p>New to Session? Want to learn more about creating groups, or the technology behind this site? Some of these resources might help.</p>
@@ -41,7 +55,7 @@
     
     <hr class="col-3 col-md-2 mb-5">
 
-    <div class="row g-5">
+    <div class="row ">
         
         <p class="text-muted fs-sm">session.codes is not affiliated with <a href="https://getsession.org" class="link-secondary">Session</a> or <a href="https://optf.ngo" class="link-secondary">OPTF</a> in any way.</p>
         
@@ -87,6 +101,32 @@
     </div>
   </div>
 </div>
+
+<!-- Copy toast -->
+
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3 m-3">
+  <div id="copyToast" class="toast bg-dark text-bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body">
+      Copied!
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+const toastTrigger = document.getElementById('copyToastBtn')
+const toastLiveExample = document.getElementById('copyToast')
+if (toastTrigger) {
+  toastTrigger.addEventListener('click', () => {
+    const toast = new bootstrap.Toast(toastLiveExample)
+    toast.show()
+    
+    navigator.clipboard.writeText(toastTrigger.name);
+  })
+}
+</script>
 
         
     #endexport
